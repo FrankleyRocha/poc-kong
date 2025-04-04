@@ -13,10 +13,18 @@ plugins:
         - 200
 
 services:
-  - name: app-kong
+  - name: springapp-kong
     url: http://192.168.101.11:8000
 
     routes:
       - name: springapp
         paths:
           - /springapp
+
+  - name: phpapp-kong
+    url: http://192.168.102.11:8000
+
+    routes:
+      - name: phpapp
+        paths:
+          - /phpapp
