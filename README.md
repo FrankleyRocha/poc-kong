@@ -44,8 +44,7 @@ graph TD
 # Auth schema
 
 ```mermaid
-graph TD
-
+graph LR
   subgraph Groups
     PublicGroup["Public Group"]
     AdminGroup[Admin Group]
@@ -58,6 +57,7 @@ graph TD
   AdminGroup -.->|Can Access| SpringappPublicEndpoint
   AdminGroup -.->|Can Access| SpringappAuthenticatedEndpoint
   AdminGroup -.->|Can Access| SpringappAdminEndpoint
+  AdminGroup -.->|Can Access| PhpappAdminEndpoint
 
   subgraph Users
     Bob -->|Member of| PublicGroup
@@ -68,11 +68,15 @@ graph TD
   Anonymous -.->|Can Access| SpringappPublicEndpoint
   Anonymous -.->|Can Access| Phpapp
 
-  subgraph API Endpoints
-    Phpapp["/phpapp (Anonymous Access)"]
+  subgraph Springapp Endpoints
     SpringappPublicEndpoint["/springapp/api/public (Anonymous Access)"]
     SpringappAuthenticatedEndpoint["/springapp/api/authenticated (Authenticated Users)"]
     SpringappAdminEndpoint["/springapp/api/admin (Admin Group Only)"]
+  end
+
+  subgraph Phpapp Endpoints
+    Phpapp["/phpapp (Anonymous Access)"]
+    PhpappAdminEndpoint["/phpapp/admin (Admin Group Only)"]
   end
 ```
 
