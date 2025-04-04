@@ -1,0 +1,10 @@
+_format_version: "3.0"
+
+services:
+  - name: app-service
+    url: http://192.168.102.10:80
+
+    routes:
+      - name: main
+        paths:
+          - /

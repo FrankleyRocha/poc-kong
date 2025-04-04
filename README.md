@@ -22,14 +22,23 @@ graph TD
     end
 
     central-kong -.-> springapp-kong
+    central-kong -.-> phpapp-kong
 
-    subgraph springapp-net["Springapp Net"]
+    subgraph springapp-net["Spring App Net"]
         springapp["Spring App"]
         springapp-kong["Spring App Kong (Auth)"]
     end
 
     springapp-kong -.-> springapp
     springapp -.-> central-kong
+
+    subgraph phpapp-net["Php App Net"]
+        phpapp["PHP App"]
+        phpapp-kong["PHP App Kong (Auth)"]
+    end
+
+    phpapp-kong -.-> phpapp
+    phpapp -.-> central-kong
 ```
 
 # Auth schema
@@ -42,11 +51,13 @@ graph TD
     AdminGroup[Admin Group]
   end
 
-  PublicGroup -.->|Can Access| PublicEndpoint
-  PublicGroup -.->|Can Access| AuthenticatedEndpoint
-  AdminGroup -.->|Can Access| PublicEndpoint
-  AdminGroup -.->|Can Access| AuthenticatedEndpoint
-  AdminGroup -.->|Can Access| AdminEndpoint
+  PublicGroup -.->|Can Access| Phpapp
+  PublicGroup -.->|Can Access| SpringappPublicEndpoint
+  PublicGroup -.->|Can Access| SpringappAuthenticatedEndpoint
+  AdminGroup -.->|Can Access| Phpapp
+  AdminGroup -.->|Can Access| SpringappPublicEndpoint
+  AdminGroup -.->|Can Access| SpringappAuthenticatedEndpoint
+  AdminGroup -.->|Can Access| SpringappAdminEndpoint
 
   subgraph Users
     Bob -->|Member of| PublicGroup
@@ -54,12 +65,14 @@ graph TD
     Anonymous
   end
 
-  Anonymous -.->|Can Access| PublicEndpoint
+  Anonymous -.->|Can Access| SpringappPublicEndpoint
+  Anonymous -.->|Can Access| Phpapp
 
   subgraph API Endpoints
-    PublicEndpoint["/api/public (Anonymous Access)"]
-    AuthenticatedEndpoint["/api/authenticated (Authenticated Users)"]
-    AdminEndpoint["/api/admin (Admin Group Only)"]
+    Phpapp["/phpapp (Anonymous Access)"]
+    SpringappPublicEndpoint["/springapp/api/public (Anonymous Access)"]
+    SpringappAuthenticatedEndpoint["/springapp/api/authenticated (Authenticated Users)"]
+    SpringappAdminEndpoint["/springapp/api/admin (Admin Group Only)"]
   end
 ```
 
@@ -80,32 +93,37 @@ docker compose up -d
 
 ## Testing
 
-### anonymous access to public endpoint
+### anonymous access to phpapp
 ```bash
 curl -i http://localhost:8000/springapp/api/public
 ```
 
-### anonymous does not have access to the authenticated endpoint
+### anonymous access to springapp public endpoint
+```bash
+curl -i http://localhost:8000/springapp/api/public
+```
+
+### anonymous does not have access to the springapp authenticated endpoint
 ```bash
 curl -i http://localhost:8000/springapp/api/authenticated
 ```
 
-### Bob can access the authenticated endpoint
+### Bob can access the springapp authenticated endpoint
 ```bash
 curl -i http://localhost:8000/springapp/api/authenticated -H "apikey: bob-key"
 ```
 
-### Alice can access the authenticated endpoint
+### Alice can access the springapp authenticated endpoint
 ```bash
 curl -i http://localhost:8000/springapp/api/authenticated -H "apikey: alice-key"
 ```
 
-### Bob does not have access to the admin endpoint
+### Bob does not have access to the springapp admin endpoint
 ```bash
 curl -i http://localhost:8000/springapp/api/admin -H "apikey: bob-key"
 ```
 
-### Alice can access the admin endpoint
+### Alice can access the springapp admin endpoint
 ```bash
 curl -i http://localhost:8000/springapp/api/admin -H "apikey: alice-key"
 ```
