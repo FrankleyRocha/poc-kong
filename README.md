@@ -1,7 +1,41 @@
 # POC-KONG
 
+# Network schema
+
 ```mermaid
-graph TD;
+graph TD
+    subgraph Internet
+        Client1["Client 1"]
+        Client2["Client 2"]
+        Client3["Client 3"]
+
+        Firewall
+    end
+
+    Client1 -.-> Firewall
+    Client2 -.-> Firewall
+    Client3 -.-> Firewall
+    Firewall -.-> central-kong
+
+    subgraph intranet["Intranet"]
+        central-kong["Central Kong (Api Gateway)"]
+    end
+
+    central-kong -.-> springapp-kong
+
+    subgraph springapp-net["Springapp Net"]
+        springapp["Spring App"]
+        springapp-kong["Spring App Kong (Auth)"]
+    end
+
+    springapp-kong -.-> springapp
+    springapp -.-> central-kong
+```
+
+# Auth schema
+
+```mermaid
+graph TD
 
   subgraph Groups
     PublicGroup["Public Group"]
