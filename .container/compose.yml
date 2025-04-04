@@ -9,7 +9,7 @@ services:
   app:
     build:
       context: ..
-      dockerfile: .devcontainer/app.dockerfile
+      dockerfile: .container/app.dockerfile
     container_name: app
     networks:
       kong-net:
