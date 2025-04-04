@@ -1,0 +1,22 @@
+_format_version: "3.0"
+
+plugins:
+  #- name: key-auth  # Todas as rotas exigem Key-Auth
+  #  config:
+  #    hide_credentials: false  # Não remover o apikey do header
+  - name: proxy-cache
+    config:
+      strategy: memory
+      request_method:
+        - GET
+      response_code:
+        - 200
+
+services:
+  - name: app-kong
+    url: http://192.168.100.11:8000
+
+    routes:
+      - name: springapp
+        paths:
+          - /springapp

@@ -6,22 +6,19 @@ networks:
         - subnet: 192.168.100.0/24
 
 services:
-  app:
+  springapp:
     build:
       context: ..
-      dockerfile: .container/app.dockerfile
+      dockerfile: .container/springapp.dockerfile
     container_name: app
     networks:
       kong-net:
         ipv4_address: 192.168.100.10
-  kong:
+  springapp-kong:
     image: kong:3.6
-    container_name: kong
-    ports:
-      - "8000:8000"   # Proxy (HTTP)
-      #- "8001:8001"   # Admin API
+    container_name: springapp-kong
     depends_on:
-      - app
+      - springapp
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: "/etc/kong/kong.yml"
@@ -31,7 +28,28 @@ services:
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: "0.0.0.0:8001"
     volumes:
-      - ./kong.yml:/etc/kong/kong.yml:ro
+      - ./kong/springapp.yml:/etc/kong/kong.yml:ro
     networks:
       kong-net:
         ipv4_address: 192.168.100.11
+  central-kong:
+    image: kong:3.6
+    container_name: central-kong
+    ports:
+      - "8000:8000"   # Proxy (HTTP)
+      #- "8001:8001"   # Admin API
+    depends_on:
+      - springapp-kong
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: "/etc/kong/kong.yml"
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
+    volumes:
+      - ./kong/central.yml:/etc/kong/kong.yml:ro
+    networks:
+      kong-net:
+        ipv4_address: 192.168.100.12

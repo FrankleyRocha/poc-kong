@@ -48,32 +48,32 @@ docker compose up -d
 
 ### anonymous access to public endpoint
 ```bash
-curl -i http://localhost:8000/api/public
+curl -i http://localhost:8000/springapp/api/public
 ```
 
 ### anonymous does not have access to the authenticated endpoint
 ```bash
-curl -i http://localhost:8000/api/authenticated
+curl -i http://localhost:8000/springapp/api/authenticated
 ```
 
 ### Bob can access the authenticated endpoint
 ```bash
-curl -i http://localhost:8000/api/authenticated -H "apikey: bob-key"
+curl -i http://localhost:8000/springapp/api/authenticated -H "apikey: bob-key"
 ```
 
 ### Alice can access the authenticated endpoint
 ```bash
-curl -i http://localhost:8000/api/authenticated -H "apikey: alice-key"
+curl -i http://localhost:8000/springapp/api/authenticated -H "apikey: alice-key"
 ```
 
 ### Bob does not have access to the admin endpoint
 ```bash
-curl -i http://localhost:8000/api/admin -H "apikey: bob-key"
+curl -i http://localhost:8000/springapp/api/admin -H "apikey: bob-key"
 ```
 
 ### Alice can access the admin endpoint
 ```bash
-curl -i http://localhost:8000/api/admin -H "apikey: alice-key"
+curl -i http://localhost:8000/springapp/api/admin -H "apikey: alice-key"
 ```
 
 ## Shutdown the compose
