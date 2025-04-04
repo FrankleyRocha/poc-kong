@@ -34,9 +34,9 @@ graph TD;
 git clone https://github.com/FrankleyRocha/poc-kong.git
 ```
 
-## Enter into `.devcontainer` folder
+## Enter into `poc-kong/.devcontainer` folder
 ```bash
-cd .devcontainer
+cd poc-kong/.devcontainer
 ```
 
 ## Startup the compose
