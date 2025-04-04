@@ -104,12 +104,12 @@ curl -i http://localhost:8000/phpapp
 
 ### anonymous does not have access to the phpgapp admin endpoint
 ```bash
-curl -i http://localhost:8000/phpgapp/admin
+curl -i http://localhost:8000/phpapp/admin
 ```
 
 ### Bob does not have access to the phpgapp admin endpoint
 ```bash
-curl -i http://localhost:8000/phpgapp/admin -H "apikey: bob-key"
+curl -i http://localhost:8000/phpapp/admin -H "apikey: bob-key"
 ```
 
 ### Alice can access the phpgapp admin endpoint
