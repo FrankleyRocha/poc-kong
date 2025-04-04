@@ -1,5 +1,5 @@
 <?php
-echo "Hello, Admin!\n";
+echo "Hello, Admin from PHP!\n";
 
 $username = $_SERVER['HTTP_X_CONSUMER_USERNAME'] ?? 'unknown';
 echo "User: " . htmlspecialchars($username) . "\n";
