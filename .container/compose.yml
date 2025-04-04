@@ -27,8 +27,8 @@ services:
     networks:
       phpapp-net:
         ipv4_address: 192.168.102.10
-    ports:
-      - 8080:80
+    #ports:
+    #  - 8080:80
   springapp:
     build:
       context: ..
