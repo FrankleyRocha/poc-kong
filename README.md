@@ -102,6 +102,21 @@ docker compose up -d
 curl -i http://localhost:8000/phpapp
 ```
 
+### anonymous does not have access to the phpgapp admin endpoint
+```bash
+curl -i http://localhost:8000/phpgapp/admin
+```
+
+### Bob does not have access to the phpgapp admin endpoint
+```bash
+curl -i http://localhost:8000/phpgapp/admin -H "apikey: bob-key"
+```
+
+### Alice can access the phpgapp admin endpoint
+```bash
+curl -i http://localhost:8000/phpapp/admin -H "apikey: alice-key"
+```
+
 ### anonymous access to springapp public endpoint
 ```bash
 curl -i http://localhost:8000/springapp/api/public
