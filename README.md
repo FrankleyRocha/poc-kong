@@ -44,11 +44,6 @@ cd poc-kong/.devcontainer
 docker compose up -d
 ```
 
-## Shutdown the compose
-```bash
-docker compose down
-```
-
 ## Testing
 
 ### anonymous access to public endpoint
@@ -79,4 +74,9 @@ curl -i http://localhost:8000/api/admin -H "apikey: bob-key"
 ### Alice can access the admin endpoint
 ```bash
 curl -i http://localhost:8000/api/admin -H "apikey: alice-key"
+```
+
+## Shutdown the compose
+```bash
+docker compose down
 ```
