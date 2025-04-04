@@ -1,0 +1,59 @@
+_format_version: "3.0"
+
+services:
+  - name: app-service
+    url: http://192.168.100.10:8080
+    plugins:
+      - name: key-auth  # Todas as rotas exigem Key-Auth
+      - name: proxy-cache
+        config:
+          strategy: memory
+          request_method:
+            - GET
+          response_code:
+            - 200
+
+    routes:
+      - name: admin
+        paths:
+          - /api/admin
+        strip_path: false
+        plugins:
+          - name: acl
+            config:
+              allow:
+                - admin
+
+      - name: authenticated
+        paths:
+          - /api/authenticated
+        strip_path: false
+        plugins:
+          - name: acl
+            config:
+              deny:
+                - none
+
+      - name: public
+        paths:
+          - /api/public
+        strip_path: false
+        plugins:
+          - name: key-auth
+            config:
+              anonymous: anonymous
+
+consumers:
+  - username: alice
+    keyauth_credentials:
+      - key: alice-key
+    acls:
+      - group: admin
+
+  - username: bob
+    keyauth_credentials:
+      - key: bob-key
+    acls:
+      - group: public
+
+  - username: anonymous
