@@ -95,7 +95,7 @@ docker compose up -d
 
 ### anonymous access to phpapp
 ```bash
-curl -i http://localhost:8000/springapp/api/public
+curl -i http://localhost:8000/phpapp
 ```
 
 ### anonymous access to springapp public endpoint
