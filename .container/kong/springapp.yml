@@ -2,7 +2,7 @@ _format_version: "3.0"
 
 services:
   - name: app-service
-    url: http://192.168.100.10:8080
+    url: http://192.168.101.10:8080
 
     plugins:
       - name: key-auth  # Todas as rotas exigem Key-Auth

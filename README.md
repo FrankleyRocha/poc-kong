@@ -17,13 +17,13 @@ graph TD
     Client3 -.-> Firewall
     Firewall -.-> central-kong
 
-    subgraph Intranet
+    subgraph intranet["Intranet"]
         central-kong["Central Kong (Api Gateway)"]
     end
 
     central-kong -.-> springapp-kong
 
-    subgraph SpringappNet
+    subgraph springapp-net["Springapp Net"]
         springapp["Spring App"]
         springapp-kong["Spring App Kong (Auth)"]
     end

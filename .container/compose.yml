@@ -1,9 +1,15 @@
 networks:
-  kong-net:
+  intranet:
     driver: bridge
     ipam:
       config:
         - subnet: 192.168.100.0/24
+
+  springapp-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.101.0/24
 
 services:
   springapp:
@@ -12,8 +18,8 @@ services:
       dockerfile: .container/springapp.dockerfile
     container_name: app
     networks:
-      kong-net:
-        ipv4_address: 192.168.100.10
+      springapp-net:
+        ipv4_address: 192.168.101.10
   springapp-kong:
     image: kong:3.6
     container_name: springapp-kong
@@ -30,8 +36,8 @@ services:
     volumes:
       - ./kong/springapp.yml:/etc/kong/kong.yml:ro
     networks:
-      kong-net:
-        ipv4_address: 192.168.100.11
+      springapp-net:
+        ipv4_address: 192.168.101.11
   central-kong:
     image: kong:3.6
     container_name: central-kong
@@ -51,5 +57,7 @@ services:
     volumes:
       - ./kong/central.yml:/etc/kong/kong.yml:ro
     networks:
-      kong-net:
-        ipv4_address: 192.168.100.12
+      springapp-net:
+        ipv4_address: 192.168.101.12
+      intranet:
+        ipv4_address: 192.168.100.10
