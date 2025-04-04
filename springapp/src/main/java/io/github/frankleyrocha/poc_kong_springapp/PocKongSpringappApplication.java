@@ -24,7 +24,7 @@ public class PocKongSpringappApplication {
 		String username = request.getHeader("X-Consumer-Username");
 		String groups = request.getHeader("X-Consumer-Groups");
 
-		return "Admin works! User: %s, Groups: %s".formatted(username,groups);
+		return "Admin works! User: %s, Groups: %s\n".formatted(username,groups);
 	}
 
 	@GetMapping("/authenticated")
@@ -33,12 +33,12 @@ public class PocKongSpringappApplication {
 		String username = request.getHeader("X-Consumer-Username");
 		String groups = request.getHeader("X-Consumer-Groups");
 
-		return "Authenticated works! User: %s, Groups: %s".formatted(username, groups);
+		return "Authenticated works! User: %s, Groups: %s\n".formatted(username, groups);
 	}
 
 	@GetMapping("/public")
 	public String publicEndpoint() {
-		return "Public works!";
+		return "Public works!\n";
 	}
 
 }
