@@ -1,17 +1,17 @@
 networks:
-  intranet:
+  kong-dmz:
     driver: bridge
     ipam:
       config:
         - subnet: 192.168.100.0/24
 
-  springapp-net:
+  springapp-dmz:
     driver: bridge
     ipam:
       config:
         - subnet: 192.168.101.0/24
 
-  phpapp-net:
+  phpapp-dmz:
     driver: bridge
     ipam:
       config:
@@ -25,7 +25,7 @@ services:
     volumes:
       - ../phpapp:/var/www/html
     networks:
-      phpapp-net:
+      phpapp-dmz:
         ipv4_address: 192.168.102.10
     #ports:
     #  - 8080:80
@@ -35,7 +35,7 @@ services:
       dockerfile: .container/springapp.dockerfile
     container_name: springapp
     networks:
-      springapp-net:
+      springapp-dmz:
         ipv4_address: 192.168.101.10
   phpapp-kong:
     image: kong:3.6
@@ -53,8 +53,10 @@ services:
     volumes:
       - ./kong/phpapp.yml:/etc/kong/kong.yml:ro
     networks:
-      phpapp-net:
-        ipv4_address: 192.168.102.11
+      kong-dmz:
+        ipv4_address: 192.168.100.12
+      phpapp-dmz:
+        ipv4_address: 192.168.102.12
     ports:
       - "8001:8000"   # Proxy (HTTP)
   springapp-kong:
@@ -73,7 +75,9 @@ services:
     volumes:
       - ./kong/springapp.yml:/etc/kong/kong.yml:ro
     networks:
-      springapp-net:
+      kong-dmz:
+        ipv4_address: 192.168.100.11
+      springapp-dmz:
         ipv4_address: 192.168.101.11
   central-kong:
     image: kong:3.6
@@ -94,9 +98,5 @@ services:
     volumes:
       - ./kong/central.yml:/etc/kong/kong.yml:ro
     networks:
-      intranet:
+      kong-dmz:
         ipv4_address: 192.168.100.10
-      springapp-net:
-        ipv4_address: 192.168.101.12
-      phpapp-net:
-        ipv4_address: 192.168.102.12

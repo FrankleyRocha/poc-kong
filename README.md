@@ -17,8 +17,10 @@ graph TD
     Client3 -.-> Firewall
     Firewall -.-> central-kong
 
-    subgraph intranet["Intranet"]
+    subgraph kong-dmz["Kong DMZ"]
         central-kong["Central Kong (Proxy/Load Balancer)"]
+        springapp-kong["Spring App Kong (API Gateway)"]
+        phpapp-kong["PHP App Kong (API Gateway)"]
     end
 
     central-kong -.-> springapp-kong
@@ -26,19 +28,15 @@ graph TD
 
     subgraph springapp-net["Spring App DMZ"]
         springapp["Spring App"]
-        springapp-kong["Spring App Kong (API Gateway)"]
     end
 
     springapp-kong -.-> springapp
-    springapp -.-> central-kong
 
     subgraph phpapp-net["Php App DMZ"]
         phpapp["PHP App"]
-        phpapp-kong["PHP App Kong (API Gateway)"]
     end
 
     phpapp-kong -.-> phpapp
-    phpapp -.-> central-kong
 ```
 
 # Auth schema

@@ -14,7 +14,7 @@ plugins:
 
 services:
   - name: springapp-kong
-    url: http://192.168.101.11:8000
+    url: http://192.168.100.11:8000
 
     routes:
       - name: springapp
@@ -22,7 +22,7 @@ services:
           - /springapp
 
   - name: phpapp-kong
-    url: http://192.168.102.11:8000
+    url: http://192.168.100.12:8000
 
     routes:
       - name: phpapp
