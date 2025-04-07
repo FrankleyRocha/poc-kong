@@ -24,7 +24,7 @@ graph TD
     central-kong -.-> springapp-kong
     central-kong -.-> phpapp-kong
 
-    subgraph springapp-net["Spring App Net"]
+    subgraph springapp-net["Spring App DMZ"]
         springapp["Spring App"]
         springapp-kong["Spring App Kong (API Gateway)"]
     end
@@ -32,7 +32,7 @@ graph TD
     springapp-kong -.-> springapp
     springapp -.-> central-kong
 
-    subgraph phpapp-net["Php App Net"]
+    subgraph phpapp-net["Php App DMZ"]
         phpapp["PHP App"]
         phpapp-kong["PHP App Kong (API Gateway)"]
     end
