@@ -18,7 +18,7 @@ graph TD
     Firewall -.-> central-kong
 
     subgraph intranet["Intranet"]
-        central-kong["Central Kong (Api Gateway)"]
+        central-kong["Central Kong (Proxy/Load Balancer)"]
     end
 
     central-kong -.-> springapp-kong
@@ -26,7 +26,7 @@ graph TD
 
     subgraph springapp-net["Spring App Net"]
         springapp["Spring App"]
-        springapp-kong["Spring App Kong (Auth)"]
+        springapp-kong["Spring App Kong (API Gateway)"]
     end
 
     springapp-kong -.-> springapp
@@ -34,7 +34,7 @@ graph TD
 
     subgraph phpapp-net["Php App Net"]
         phpapp["PHP App"]
-        phpapp-kong["PHP App Kong (Auth)"]
+        phpapp-kong["PHP App Kong (API Gateway)"]
     end
 
     phpapp-kong -.-> phpapp
